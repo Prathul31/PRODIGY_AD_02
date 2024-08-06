@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e9ecef;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            margin: 0;
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .task-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .task-list li:last-child {
+            border-bottom: none;
+        }
+        .task-list input[type="text"] {
+            border: none;
+            outline: none;
+            flex-grow: 1;
+            background: transparent;
+            color: #333;
+            padding: 5px 0;
+        }
+        .task-list .edit,
+        .task-list .delete {
+            cursor: pointer;
+            padding: 5px 10px;
+            border: none;
+            background: #007BFF;
+            color: #fff;
+            border-radius: 4px;
+            margin-left: 5px;
+        }
+        .task-list .edit:hover,
+        .task-list .delete:hover {
+            background-color: #0056b3;
+        }
+        .add-task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .add-task input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .add-task button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .add-task button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <ul class="task-list" id="taskList">
+            <!-- Task items will be appended here dynamically -->
+        </ul>
+        <div class="add-task">
+            <input type="text" id="newTaskInput" placeholder="New Task">
+            <button onclick="addTask()">Add</button>
+        </div>
+    </div>
+
+    <script>
+        function addTask() {
+            const taskList = document.getElementById('taskList');
+            const newTaskInput = document.getElementById('newTaskInput');
+            const taskText = newTaskInput.value.trim();
+
+            if (taskText) {
+                const li = document.createElement('li');
+                
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = taskText;
+                input.readOnly = true;
+
+                const editButton = document.createElement('button');
+                editButton.className = 'edit';
+                editButton.innerText = 'Edit';
+                editButton.onclick = function() {
+                    if (input.readOnly) {
+                        input.readOnly = false;
+                        input.focus();
+                        editButton.innerText = 'Save';
+                    } else {
+                        input.readOnly = true;
+                        editButton.innerText = 'Edit';
+                    }
+                };
+
+                const deleteButton = document.createElement('button');
+                deleteButton.className = 'delete';
+                deleteButton.innerText = 'Delete';
+                deleteButton.onclick = function() {
+                    taskList.removeChild(li);
+                };
+
+                li.appendChild(input);
+                li.appendChild(editButton);
+                li.appendChild(deleteButton);
+                taskList.appendChild(li);
+                newTaskInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
